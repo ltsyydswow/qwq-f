@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+    <title>坤哥起始页</title>
+    <style>
+        body {
+            background-image: url("https://i0.hdslb.com/bfs/new_dyn/f900e67c0f20ca77e1e19a99fdb282201231237141.jpg@!web-comment-note.avif");
+            background-size: cover;
+        }
+        
+        #search-bar {
+            width: 680px;
+            height: 50px;
+            border-radius: 25px;
+            background-color: rgba(255, 255, 255, 0.5);
+            margin: 200px auto;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        #search-input {
+            width: 70%;
+            height: 30px;
+            border: none;
+            font-size: 16px;
+            padding: 5px;
+        }
+        
+        #search-engine {
+            width: 20%;
+            height: 30px;
+            border: none;
+            font-size: 16px;
+            padding: 5px;
+            margin-right: 10px;
+            border-radius: 15px;
+        }
+    </style>
+
+
+
+</head>
+<body>
+    <div id="search-bar">
+        <select id="search-engine">
+            <option value="https://www.google.com/search?q=">Google</option>
+            <option value="https://www.baidu.com/s?ie=utf-8&word=">Baidu</option>
+            <option value="https://www.bing.com/search?q=">Bing</option>
+            <option value="https://yandex.com/search/?text=">Yandex</option>
+            <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+            <option value="https://www.so.com/s?q=">360</option>
+            <option value="https://search.bilibili.com/all?keyword=">bilibili</option>
+            <option value="https://www.youtube.com/results?search_query=">youtube</option>
+
+        </select>
+        <input type="text" id="search-input" placeholder="请输入问题">
+    </div>
+    
+    <!--翻译-->
+    <script>
+    
+        document.getElementById("search-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                var query = document.getElementById("search-input").value;
+                var selectedEngine = document.getElementById("search-engine").value;
+                
+                if (/^[a-zA-Z]+$/.test(query)) {
+                    var confirmResult = confirm("是否查询英文 '" + query + "' ?");
+                    if (confirmResult) {
+                        window.location.href = "https://fanyi.baidu.com/#en/zh/" + query;
+                        return; // 跳出函数，不再执行后续代码
+                    }
+                }
+                
+                window.location.href = selectedEngine + query;
+            }
+        });
+    </script>
+</body>
+<footer>
+  <div id="content"></div>
+</footer>
+
+<style>
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 16px;
+  }
+</style>
+<!--每日一言-->
+<script>
+  // 使用fetch函数获取URL的内容
+  fetch('https://v.api.aa1.cn/api/yiyan/index.php')
+    .then(response => response.text()) // 将响应转换为文本格式
+    .then(data => {
+      // 将获取的内容显示在指定的元素中
+      document.getElementById('content').innerText = data;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+</script>
+
+</html>
