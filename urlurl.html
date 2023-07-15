@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>链接缩短器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      body {
+        background-image: url('');
+        background-size: cover;
+        background-position: center;
+      }
+      .container {
+        margin: 50px auto;
+        width: 90%;
+        text-align: center;
+        border: 2px solid #FF69B4;
+        border-radius: 20px;
+        padding: 20px;
+      }
+      input {
+        padding: 5px;
+        border-radius: 10px;
+        border: none;
+        width: 70%;
+        margin-right: 10px;
+      }
+      button {
+        padding: 5px;
+        border-radius: 10px;
+        border: none;
+        background-color: #FF69B4;
+        color: white;
+        font-weight: bold;
+      }
+      @media (max-width: 768px) {
+        input {
+          padding: 3px;
+          width: 60%;
+        }
+        button {
+          padding: 3px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>链接缩短器</h1>
+      <input type="text" id="url" placeholder="请输入需要缩短的链接">
+      <button onclick="shorten()">缩短</button>
+      <p id="shortened-url"></p>
+    </div>
+    <script>
+      function shorten() {
+        const urlInput = document.getElementById("url");
+        const url = urlInput.value;
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "https://s.dlj.cn/api/v1/link/simple");
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            const shortenedUrl = response.data.short_url;
+            const shortenedUrlElement = document.getElementById("shortened-url");
+            shortenedUrlElement.innerText = `缩短后的链接为：${shortenedUrl}`;
+          }
+        };
+        xhr.send(JSON.stringify({url: url}));
+      }
+    </script>
+  </body>
+</html>
